@@ -1,67 +1,3 @@
-<template>
-  <div class="nav-bar">
-    <div class="cart">Cart({{cart}})</div>
-    <div class="product-display">
-      
-      <div class="product-container">
-        <div class="product-image">
-          <img :class="{'out-of-stock-img':!inStock}" :src="image">
-        </div>
-        <div class="product-info">
-          <h1>{{title}}</h1>
-          <p v-if="inStock > 0">In Stock</p>
-          <p v-else>Out of Stock</p>
-          <p>Shipping:{{shipping}}</p>
-          <ul>
-            <li v-for="detail in details" :key="detail">
-              {{ detail }}
-            </li>
-          </ul>
-        <div
-         v-for="(variant,index) in variants" 
-        :key="variant.id"
-         @mouseover="updateVariant(index)"
-        class="color-circle"
-        :style="{backgroundColor:variant.color}">
-      </div>
-       <button class="button"
-       :class="{disableButton:!inStock}"
-       :disabled="!inStock"
-       @click="addToCart">Add to Cart</button>
-      <div><a :href="url">Made by Vue Mastery</a></div>
-      </div>
-    </div>
-   </div>
-  </div>
-</template>
-<script setup lang="ts">
-import {ref,reactive,computed} from 'vue'
-const cart=ref(0)
-const product=ref('Socks')
-const brand=ref('Vue Mastery')
-const selectedVariant=ref(0)
-const premium=ref(true)
-const details=ref(['50% cotton','30% wool','20% polyester'])
-const variants=reactive([
-  {id:2234,color:'green',image:'/images/socks_green.jpg',quantity:50},
-  {id:2235,color:'blue',image:'/images/socks_blue.jpg',quantity:0}
-])
-const onSale=ref(true)
-const addToCart=()=>cart.value+=1
-const updateVariant=(index:number)=>selectedVariant.value=index
-const title=computed(()=>brand.value +' '+ product.value)
-const image=computed(()=>variants[selectedVariant.value].image)
-const inStock=computed(()=>variants[selectedVariant.value].quantity)
-const shipping=computed(()=>{
-  if(premium.value){
-    return 'Free'
-  }
-  return 2.99
-})
-const url=ref('https://www.vuemastery.com/')
-</script>
-
-<style scoped>
 body {
   background-color: #f2f2f2;
   margin: 0px;
@@ -244,5 +180,3 @@ ul {
     width: 90%;
   }
 }
-
-</style>
